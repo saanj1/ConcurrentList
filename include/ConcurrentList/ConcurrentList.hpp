@@ -8,6 +8,17 @@
  * for ConcurrentList::ConcurrentList class
  */
 
+
+#define SNJ_MAKE_NONCOPYABLE(c)\
+private:                       \
+  c(const c&) noexcept = delete;\
+  c& operator=(const c&) noexcept = delete
+
+#define SNJ_MAKE_NONMOVABLE(c)\
+private:                      \
+  c(c&&) noexcept = delete;   \
+  c& operator=(c&&) noexcept = delete
+
 #include <memory>
 #include <atomic>
 #include <utility>
@@ -178,10 +189,8 @@ namespace ConcurrentList {
     //Life cycle management
     ~ConcurrentList() = default;
     //Implemet these if require, disabling now
-    ConcurrentList(const ConcurrentList&) noexcept = delete;
-    ConcurrentList(ConcurrentList&&) noexcept = delete;
-    ConcurrentList& operator=(const ConcurrentList&) noexcept = delete;
-    ConcurrentList& operator=(ConcurrentList&&) noexcept = delete;
+    SNJ_MAKE_NONCOPYABLE(ConcurrentList);
+    SNJ_MAKE_NONMOVABLE(ConcurrentList);
 
     //This is the constructor 
     ConcurrentList()
