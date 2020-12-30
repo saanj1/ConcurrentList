@@ -277,7 +277,7 @@ namespace ConcurrentList {
       auto curr_head = _m_head.load();
       new_node->next = curr_head;
       while(!_m_head.compare_exchange_weak(curr_head, new_node, 
-                              std::memory_order_acq_rel)) {
+                              std::memory_order_release)) {
           curr_head = _m_head.load();
           new_node->next = curr_head;
       }
@@ -295,7 +295,7 @@ namespace ConcurrentList {
       auto curr_next = curr->next.load();
       new_node->next = curr_next;
       while(!curr->next.compare_exchange_weak(curr_next, new_node, 
-                std::memory_order_acq_rel)) {
+                std::memory_order_release)) {
         curr_next = curr->next.load();
         new_node->next = curr_next;
       }
